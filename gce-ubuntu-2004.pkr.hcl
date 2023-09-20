@@ -13,10 +13,10 @@ packer {
 
 
 variable "project_id" {
-  default = "vinid-playground"
+  default = "test1-395402"
 }
 variable "subnetwork" {
-  default = "https://www.googleapis.com/compute/v1/projects/vinid-playground/regions/asia-east2/subnetworks/gce-network"
+  default = "https://www.googleapis.com/compute/v1/projects/test1-395402/regions/us-east1/subnetworks/default"
 }
 variable "ssh_username" {
   default = "packer"
