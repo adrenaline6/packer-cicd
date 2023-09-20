@@ -76,43 +76,7 @@ source "googlecompute" "ubuntu-cis-image" {
   }
 }
 
-#
-source "none" {}
-build {
-  sources = ["source.none"]
 
-  provisioner "ansible" {
-    playbook_file = "tests/test.yml"
-    extra_arguments = ["--syntax-check"]
-  }
-
-  post-processor "shell-local" {
-    inline = ["echo '[defaults]\nroles_path=../' > ansible.cfg"]
-  }
-
-  communicator = "none"
-}
-
-post-processor "ansible" {
-  playbook_file = "tests/test.yml"
-  playbook_dir  = "./"
-  extra_arguments = ["--syntax-check"]
-  inventory_file = "tests/inventory"
-}
-
-post-processor "shell-local" {
-  inline = ["echo '[defaults]\nroles_path=../' > ansible.cfg"]
-}
-
-post-processor "shell-local" {
-  inline = ["echo '[defaults]\nroles_path=../' > ansible.cfg"]
-}
-
-variables {
-  ansible_version = "3.8"
-  ansible_webhook_url = "https://galaxy.ansible.com/api/v1/notifications/"
-  roles_path = "../"
-}
 
 build {
   sources = ["source.googlecompute.ubuntu-cis-image"]
@@ -120,7 +84,7 @@ build {
     user          = "packer"
     playbook_file = "./ansible/ubuntu-2004.yml"
     extra_arguments = [
-      "--tags= 1.1.1"
+      "--tags= 1.1.1, 1.1.2"
     ]
   }
 }
