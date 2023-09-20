@@ -3,13 +3,13 @@ steps:
   args:
   - init  
   - gce-ubuntu-2004.pkr.hcl 
-- name: 'python:3'
-  entrypoint: /bin/sh
-  args:
-    - '-c'
-    - |
-      apt-get update && apt-get install -y python3-pip
-      apt-get install ansible -y
+# - name: 'python:3'
+#   entrypoint: /bin/sh
+#   args:
+#     - '-c'
+#     - |
+#       apt-get update && apt-get install -y python3-pip
+#       apt-get install ansible -y
 - name: 'asia-east2-docker.pkg.dev/test1-395402/packer/packer-runner:lastesst'
   args:
   - build
