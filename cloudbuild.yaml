@@ -9,7 +9,7 @@ steps:
     - '-c'
     - |
       apt-get update && apt-get install -y python3-pip
-      pip3 install ansible
+      apt-get install ansible -y
 - name: 'asia-east2-docker.pkg.dev/test1-395402/packer/packer-runner:lastesst'
   args:
   - build
