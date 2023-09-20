@@ -52,47 +52,6 @@ variable "disk_type" {
   default = "pd-ssd"
 }
 
-
-variable "ansible_webhook_url" {
-  default = "https://galaxy.ansible.com/api/v1/notifications/"
-}
-
-variable "roles_path" {
-  default = "../"
-}
-
-provider "python" {
-  version = "3.8"
-}
-
-provider "ansible" {
-  version = "2.9" # Bạn cần cập nhật phiên bản ansible tùy thuộc vào phiên bản bạn muốn sử dụng
-}
-
-resource "ansible_playbook" "example" {
-  inventory_file = "tests/inventory"
-  playbook_file = "tests/test.yml"
-
-  provisioner "ansible" {
-    playbook_command = ["ansible-playbook"]
-    extra_arguments = ["--syntax-check"]
-  }
-}
-
-resource "ansible_galaxy" "example" {
-  webhook_url = var.ansible_webhook_url
-}
-
-# Tạo ansible.cfg với đường dẫn roles_path
-resource "local_file" "ansible_cfg" {
-  filename = "ansible.cfg"
-  content = <<-EOT
-    [defaults]
-    roles_path=${var.roles_path}
-  EOT
-}
-
-
 source "googlecompute" "ubuntu-cis-image" {
   project_id          = "${var.project_id}"
   source_image        = "${var.source_image}"
@@ -115,6 +74,44 @@ source "googlecompute" "ubuntu-cis-image" {
   metadata = {
     "enable-oslogin" = "FALSE"
   }
+}
+
+#
+source "none" {}
+build {
+  sources = ["source.none"]
+
+  provisioner "ansible" {
+    playbook_file = "tests/test.yml"
+    extra_arguments = ["--syntax-check"]
+  }
+
+  post-processor "shell-local" {
+    inline = ["echo '[defaults]\nroles_path=../' > ansible.cfg"]
+  }
+
+  communicator = "none"
+}
+
+post-processor "ansible" {
+  playbook_file = "tests/test.yml"
+  playbook_dir  = "./"
+  extra_arguments = ["--syntax-check"]
+  inventory_file = "tests/inventory"
+}
+
+post-processor "shell-local" {
+  inline = ["echo '[defaults]\nroles_path=../' > ansible.cfg"]
+}
+
+post-processor "shell-local" {
+  inline = ["echo '[defaults]\nroles_path=../' > ansible.cfg"]
+}
+
+variables {
+  ansible_version = "3.8"
+  ansible_webhook_url = "https://galaxy.ansible.com/api/v1/notifications/"
+  roles_path = "../"
 }
 
 build {
