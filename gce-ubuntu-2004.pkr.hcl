@@ -70,9 +70,6 @@ source "googlecompute" "ubuntu-cis-image" {
   metadata = {
     "enable-oslogin" = "FALSE"
   }
-  scheduling = {
-    "provisioning_model" = "TRUE"
-  }
 }
 
 build {
