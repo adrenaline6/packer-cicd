@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  become: true
+  remote_user: ansible-client #add username or use user ssh
+  ignore_errors: 
+  roles:
+
+      - role: "{{ playbook_dir }}"
+    

@@ -1,0 +1,8 @@
+---
+- name: CIS-Hardening-Ubuntu
+  hosts: all
+  become: yes
+  remote_user: packer
+  roles:
+    - { role: CIS-Ubuntu-20.04-Ansible, tags: level_1_server }
+

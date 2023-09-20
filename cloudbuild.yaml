@@ -1,0 +1,11 @@
+steps:
+- name: 'asia-east2-docker.pkg.dev/test1-395402/packer/packer-runner:lastesst'
+  args:
+  - init  
+  - gce-ubuntu-security.pkr.hcl 
+
+- name: 'asia-east2-docker.pkg.dev/test1-395402/packer/packer-runner:lastesst'
+  args:
+  - build
+  - '-force'
+  - gce-ubuntu-security.pkr.hcl
