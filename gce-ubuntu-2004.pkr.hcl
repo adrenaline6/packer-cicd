@@ -84,7 +84,9 @@ build {
     user          = "packer"
     playbook_file = "./ansible/ubuntu-2004.yml"
     extra_arguments = [
-      "--tags= 1.1.1, 1.1.2"
+      "--tags= 1.1.1, 1.1.2",
+      "--extra-vars",
+      "ansible_python_interpreter=/usr/bin/python"
     ]
   }
 }
