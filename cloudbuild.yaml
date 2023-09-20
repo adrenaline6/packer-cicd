@@ -8,4 +8,4 @@ steps:
   args:
   - build
   - '-force'
-  - gce-ubuntu-security.pkr.hcl
+  - gce-ubuntu-2004.pkr.hcl
