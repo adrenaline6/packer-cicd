@@ -85,5 +85,11 @@ build {
       "--tags= 1.1.1"
     ]
   }
+  provisioner "shell" {
+    inline = [
+      "sudo apt update",
+      "sudo apt install -y ansible"
+    ]
+  }
 }
 
