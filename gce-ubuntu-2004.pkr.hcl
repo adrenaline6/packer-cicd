@@ -83,11 +83,7 @@ build {
   provisioner "ansible" {
     user          = "packer"
     playbook_file = "./ansible/ubuntu-2004.yml"
-    extra_arguments = [
-      "--tags= 1.1.1, 1.1.2",
-      "--extra-vars",
-      "ansible_python_interpreter=/usr/bin/python"
-    ]
+    "extra_arguments": ["-e", "ansible_python_interpreter=/usr/bin/python", "-vv"]
   }
 }
 
