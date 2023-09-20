@@ -22,7 +22,7 @@ variable "ssh_username" {
   default = "packer"
 }
 variable "source_image" {
-  default = "ubuntu-2004-focal-v20201014"
+  default = "ubuntu-2004-focal-v20230918"
 }
 variable "source_image_family" {
   default = "hardened-ubuntu-2004-lts"
