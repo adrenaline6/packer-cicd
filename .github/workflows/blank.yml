@@ -1,0 +1,33 @@
+name: Packer Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up Packer
+      run: |
+        curl -O https://releases.hashicorp.com/packer/1.7.4/packer_1.7.4_linux_amd64.zip
+        unzip packer_1.7.4_linux_amd64.zip
+        sudo mv packer /usr/local/bin/
+      shell: bash
+
+    - name: Build Packer Images
+      env:
+        CI_COMMIT_SHA: ${{ github.sha }}
+      run: |
+        change_files=$(git diff-tree --no-commit-id --name-only -r $CI_COMMIT_SHA | grep ".hcl")
+        for app in $change_files; do
+          packer init $app
+          packer build -force -debug $app
+        done
