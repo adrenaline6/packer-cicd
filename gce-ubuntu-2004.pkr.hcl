@@ -52,6 +52,47 @@ variable "disk_type" {
   default = "pd-ssd"
 }
 
+
+variable "ansible_webhook_url" {
+  default = "https://galaxy.ansible.com/api/v1/notifications/"
+}
+
+variable "roles_path" {
+  default = "../"
+}
+
+provider "python" {
+  version = "3.8"
+}
+
+provider "ansible" {
+  version = "2.9" # Bạn cần cập nhật phiên bản ansible tùy thuộc vào phiên bản bạn muốn sử dụng
+}
+
+resource "ansible_playbook" "example" {
+  inventory_file = "tests/inventory"
+  playbook_file = "tests/test.yml"
+
+  provisioner "ansible" {
+    playbook_command = ["ansible-playbook"]
+    extra_arguments = ["--syntax-check"]
+  }
+}
+
+resource "ansible_galaxy" "example" {
+  webhook_url = var.ansible_webhook_url
+}
+
+# Tạo ansible.cfg với đường dẫn roles_path
+resource "local_file" "ansible_cfg" {
+  filename = "ansible.cfg"
+  content = <<-EOT
+    [defaults]
+    roles_path=${var.roles_path}
+  EOT
+}
+
+
 source "googlecompute" "ubuntu-cis-image" {
   project_id          = "${var.project_id}"
   source_image        = "${var.source_image}"
@@ -83,12 +124,6 @@ build {
     playbook_file = "./ansible/ubuntu-2004.yml"
     extra_arguments = [
       "--tags= 1.1.1"
-    ]
-  }
-  provisioner "shell" {
-    inline = [
-      "sudo apt update",
-      "sudo apt install -y ansible"
     ]
   }
 }
