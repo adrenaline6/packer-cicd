@@ -1,5 +1,5 @@
 steps:
-- name: 'asia-east2-docker.pkg.dev/test1-395402/packer/packer-runner:v2'
+- name: 'asia-east2-docker.pkg.dev/test1-395402/packer/packer-runner:v1.1'
   args:
   - packer init  
   - packer gce-ubuntu-2004.pkr.hcl 
@@ -10,7 +10,7 @@ steps:
 #     - |
 #       apt-get update && apt-get install -y python3-pip
 #       apt-get install ansible -y
-- name: 'asia-east2-docker.pkg.dev/test1-395402/packer/packer-runner:v2'
+- name: 'asia-east2-docker.pkg.dev/test1-395402/packer/packer-runner:v1.1'
   args:
   - build
   - '-force'
